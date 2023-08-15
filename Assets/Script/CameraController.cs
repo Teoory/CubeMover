@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour
     {
         float h = Random.value;
         float s = 1f;
-        float v = 0.1f;
+        float v = 0.35f;
         return Color.HSVToRGB(h, s, v);
     }
 }

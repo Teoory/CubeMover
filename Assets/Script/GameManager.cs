@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     private Vector2 touchStartPosition;
     private Vector2 touchEndPosition;
     private bool isGameStarted = false;
+    public bool _isMoving = false;
+
+    public bool _buttonToMove = false;
+    public GameObject MoveButtons;
 
 
     [Header("Platforms")]
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         StartPanel.gameObject.SetActive(true);
         timerText.gameObject.SetActive(false);
+        MoveButtons.gameObject.SetActive(false);
         CurrentPlatform = StartPlatform;
         StartCoroutine(SpawnPlatform());
         StartTimer();
@@ -74,86 +79,123 @@ public class GameManager : MonoBehaviour
             timerText.text = timer.ToString("F2");
         }
         
-        if (Input.touchCount > 0)
+        if(_buttonToMove)
         {
-            Touch touch = Input.GetTouch(0);
+            MoveButtons.gameObject.SetActive(true);
+        }else MoveButtons.gameObject.SetActive(false);
+        
+        if(_isMoving && !_buttonToMove)
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
-            {
-                isTouched = true;
-                touchStartPosition = touch.position;
-                touchEndPosition = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-            {
-                touchEndPosition = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                isTouched = false;
-                Vector2 touchDelta = touchEndPosition - touchStartPosition;
-
-                if (isGameStarted)
+                if (touch.phase == TouchPhase.Began)
                 {
-                    if (Mathf.Abs(touchDelta.x) > Mathf.Abs(touchDelta.y))
+                    isTouched = true;
+                    touchStartPosition = touch.position;
+                    touchEndPosition = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                {
+                    touchEndPosition = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    isTouched = false;
+                    Vector2 touchDelta = touchEndPosition - touchStartPosition;
+
+                    if (isGameStarted)
                     {
-                        if (touchDelta.x > 0)
+                        if (Mathf.Abs(touchDelta.x) > Mathf.Abs(touchDelta.y))
                         {
-                            targetDest = Player.position + new Vector3(playerMoveDist, 0, 0);
-                            CurrentState = GameState.Moving;
-                            
-                            Player.rotation = Quaternion.Euler(0, 0, 0);
+                            if (touchDelta.x > 0)
+                            {
+                                targetDest = Player.position + new Vector3(playerMoveDist, 0, 0);
+                                CurrentState = GameState.Moving;
+
+                                Player.rotation = Quaternion.Euler(0, 0, 0);
+                            }
+                            else
+                            {
+                                targetDest = Player.position + new Vector3(-playerMoveDist, 0, 0);
+                                CurrentState = GameState.Moving;
+
+                                Player.rotation = Quaternion.Euler(0, 180, 0);
+                            }
                         }
                         else
                         {
-                            targetDest = Player.position + new Vector3(-playerMoveDist, 0, 0);
-                            CurrentState = GameState.Moving;
-                            
-                            Player.rotation = Quaternion.Euler(0, 180, 0);
+                            if (touchDelta.y > 0)
+                            {
+                                targetDest = Player.position + new Vector3(0, 0, playerMoveDist);
+                                CurrentState = GameState.Moving;
+
+                                Player.rotation = Quaternion.Euler(0, -90, 0);
+                            }
+                            else
+                            {
+                                targetDest = Player.position + new Vector3(0, 0, -playerMoveDist);
+                                CurrentState = GameState.Moving;
+
+                                Player.rotation = Quaternion.Euler(0, 90, 0);
+                            }
                         }
                     }
                     else
                     {
-                        if (touchDelta.y > 0)
-                        {
-                            targetDest = Player.position + new Vector3(0, 0, playerMoveDist);
-                            CurrentState = GameState.Moving;
-                            
-                            Player.rotation = Quaternion.Euler(0, -90, 0);
-                        }
-                        else
-                        {
-                            targetDest = Player.position + new Vector3(0, 0, -playerMoveDist);
-                            CurrentState = GameState.Moving;
-                            
-                            Player.rotation = Quaternion.Euler(0, 90, 0);
-                        }
+                        isGameStarted = true;
                     }
                 }
-                else
-                {
-                    isGameStarted = true;
-                }
             }
-        }
-        else
-        {
-            isTouched = false;
+            else
+            {
+                isTouched = false;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if (CurrentState == GameState.Moving)
+        if(_isMoving)
         {
-            Player.position = Vector3.MoveTowards(Player.position, new Vector3(targetDest.x, Player.position.y, targetDest.z), 0.2f);
-
-            if(Vector2.Distance(new Vector2(Player.position.x, Player.position.z), new Vector2(targetDest.x, targetDest.z)) < 0.1f)
+            if (CurrentState == GameState.Moving)
             {
-                Player.position = targetDest;
-                CurrentState = GameState.ReadyForInput;
+                Player.position = Vector3.MoveTowards(Player.position, new Vector3(targetDest.x, Player.position.y, targetDest.z), 0.2f);
+
+                if(Vector2.Distance(new Vector2(Player.position.x, Player.position.z), new Vector2(targetDest.x, targetDest.z)) < 0.1f)
+                {
+                    Player.position = targetDest;
+                    CurrentState = GameState.ReadyForInput;
+                }
             }
         }
+    }
+
+    public void getButtonEnabled()
+    {
+        if(_buttonToMove) _buttonToMove = false;
+        else _buttonToMove = true;
+    }
+    public void _UpButton()
+    {
+        targetDest = Player.position + new Vector3(0, 0, playerMoveDist);
+        CurrentState = GameState.Moving;
+    }
+    public void _LeftButton()
+    {
+        targetDest = Player.position + new Vector3(-playerMoveDist, 0, 0);
+        CurrentState = GameState.Moving;
+    }
+    public void _DownButton()
+    {
+        targetDest = Player.position + new Vector3(0, 0, -playerMoveDist);
+        CurrentState = GameState.Moving;
+    }
+    public void _RightButton()
+    {
+        targetDest = Player.position + new Vector3(playerMoveDist, 0, 0);
+        CurrentState = GameState.Moving;
     }
 
     public void StartGame()
@@ -161,6 +203,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         StartPanel.gameObject.SetActive(false);
         timerText.gameObject.SetActive(true);
+        _isMoving = true;
+        if(_buttonToMove)   MoveButtons.gameObject.SetActive(true);
     }
     public void RestartGame()
     {
