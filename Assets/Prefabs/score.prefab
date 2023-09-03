@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8432753176651373881}
   - component: {fileID: 8432753176651373883}
-  - component: {fileID: 8432753176651373880}
+  - component: {fileID: 4793661789544238334}
   m_Layer: 5
   m_Name: score
   m_TagString: Untagged
@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8432753176651373878}
   m_CullTransparentMesh: 1
---- !u!114 &8432753176651373880
+--- !u!114 &4793661789544238334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,10 +73,10 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 218
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'ID: 0'
+  m_Text: '1: 16.25'

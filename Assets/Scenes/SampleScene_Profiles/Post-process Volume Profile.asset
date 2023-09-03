@@ -92,10 +92,10 @@ MonoBehaviour:
     value: 0.5
   smoothness:
     overrideState: 0
-    value: 0.054
+    value: 0.39
   roundness:
     overrideState: 0
-    value: 0.84
+    value: 0.91
   rounded:
     overrideState: 0
     value: 0
