@@ -169,6 +169,24 @@ public class admob : MonoBehaviour
                 int newEarnedCoins = earnedCoins * 2;
                 gameManager.earnedCoins = newEarnedCoins;
                 gameManager.adstogivecoin();
+            });
+        }
+    }
+    public void ShowRewardedInterstitialAd2()
+    {
+        const string rewardMsg =
+            "Rewarded interstitial ad rewarded the user. Type: {0}, amount: {1}.";
+
+        if (rewardedInterstitialAd != null && rewardedInterstitialAd.CanShowAd())
+        {
+            rewardedInterstitialAd.Show((Reward reward) =>
+            {
+                GameManager2 gameManager2 = GetComponent<GameManager2>();
+                gameManager2.adsOpened = true;
+                int earnedCoins2 = gameManager2.earnedCoins;
+                int newEarnedCoins2 = earnedCoins2 * 2;
+                gameManager2.earnedCoins = newEarnedCoins2;
+                gameManager2.adstogivecoin();
                 Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });
         }
@@ -184,6 +202,7 @@ public class admob : MonoBehaviour
             rewardedAd.Show((Reward reward) =>
             {
                 // TODO: Reward the user.
+                coinManager = GetComponent<CoinManager>();
                 coinManager.AddCoins(300);
                 Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
             });

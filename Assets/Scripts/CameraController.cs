@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
         currentColor = GetRandomHSVColor();
         mainCamera.backgroundColor = currentColor;
         targetColor = GetRandomHSVColor();
-        offset = new Vector3(3f, 6f, -10f);
+        offset = new Vector3(3f, 5f, -10f);
     }
 
     public void _lookChar()
@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
     }
     public void _BackChar()
     {
-        offset = new Vector3(3f, 8f, -10f);
+        offset = new Vector3(3f, 5f, -10f);
         transform.position = new Vector3(5f, 7.5f, -18f);
         Camera.main.orthographicSize = 7;
     }
