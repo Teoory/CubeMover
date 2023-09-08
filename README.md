@@ -5,7 +5,7 @@
 
 ## Takım Elemanları
 
-- Berkay Köksal: Product Owner/Team Member/Developer
+- Berkay Köksal: Product Owner/Developer
 
 ## Ürün İsmi
 
