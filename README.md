@@ -1,5 +1,5 @@
-# CubeCats
- CubeCats Android Game. KKSLAB
+# CubeMover
+ CubeMover Android Game. KKSLAB
 
 # Ürün İle İlgili Bilgiler
 
@@ -9,7 +9,7 @@
 
 ## Ürün İsmi
 
- CubeCats
+ CubeMover
 
 ## Ürün Açıklaması
 
